@@ -7,15 +7,15 @@ public class Lab_act1_Arithmetics {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
 
-        System.out.println("Input the first number = ");
+        System.out.print("Input the first number : ");
         int myFirst;
         myFirst = in.nextInt();
 
-        System.out.println("Input the second number = ");
+        System.out.print("Input the second number : ");
         int mySecond;
         mySecond = in.nextInt();
 
-        System.out.println("Input the third number = ");
+        System.out.print("Input the third number : ");
         int myThird;
         myThird = in.nextInt();
 
