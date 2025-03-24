@@ -1,4 +1,4 @@
-package Midterm;
+package midterm;
 
 public class Emactao_MultiDimensionalArray_ {
          public static void main (String [] args){
