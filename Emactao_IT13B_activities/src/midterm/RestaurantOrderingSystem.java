@@ -50,7 +50,7 @@ public class RestaurantOrderingSystem {
 
         String encryptedPassword = passwordEncryption(createPassword, key);
         
-        try (FileWriter myWriter = new FileWriter("C:\\Users\\Eunace Faith Emactao\\OneDrive\\Desktop\\test1.txt", true)) {
+        try (FileWriter myWriter = new FileWriter("C:\\Users\\Eunace Faith Emactao\\OneDrive\\Desktop\\users.txt", true)) {
             myWriter.write(createUsername + "," + encryptedPassword + "\n");
             System.out.println("✅ Account created successfully!");
         } catch (IOException e) {
@@ -93,7 +93,7 @@ public class RestaurantOrderingSystem {
     }
 
     private static boolean login(String username, String password, int key) {
-        try (BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\Eunace Faith Emactao\\OneDrive\\Desktop\\test1.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\Eunace Faith Emactao\\OneDrive\\Desktop\\users.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
