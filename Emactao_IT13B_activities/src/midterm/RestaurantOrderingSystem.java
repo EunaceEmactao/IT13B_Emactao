@@ -13,7 +13,7 @@ public class RestaurantOrderingSystem {
         boolean running = true;
 
         while (running) {
-            System.out.println("\nWelcome! Please choose an option:");
+            System.out.println("\n Welcome! Please choose an option:");
             System.out.println("[1] Create an Account");
             System.out.println("[2] Log In");
 
@@ -111,7 +111,7 @@ public class RestaurantOrderingSystem {
     }
     
     public static void RestaurantOrder() {
-        Scanner scanner = new Scanner(System.in);
+        Scanner in = new Scanner(System.in);
 
         String[] menuItems = {"Tiramisu Cake", "Strawberry Cake", "Affogato"};
         int[] prices = {150, 120, 80}; 
@@ -127,15 +127,15 @@ public class RestaurantOrderingSystem {
             System.out.println("4. Exit");
 
             System.out.print("Enter your choice (1-4): ");
-            choice = scanner.nextInt();
+            choice = in.nextInt();
 
             if (choice >= 1 && choice <= 3) {
                 System.out.print("Enter quantity for " + menuItems[choice - 1] + ": ");
-                int qty = scanner.nextInt();
+                int qty = in.nextInt();
                 quantities[choice - 1] += qty;
             } else if (choice != 4) {
                 System.out.println("Invalid choice. Please try again.");
-            }
+            } 
 
         } while (choice != 4);
     System.out.println("Exiting menu...");
@@ -149,7 +149,7 @@ public class RestaurantOrderingSystem {
                 total += itemTotal;
             }
         }
-        System.out.println("🧾 Total Bill: ₱" + total);
+        System.out.println("Total Bill: ₱ " + total);
     }
 }
 
