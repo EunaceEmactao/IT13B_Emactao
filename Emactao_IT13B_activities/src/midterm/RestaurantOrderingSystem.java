@@ -48,7 +48,7 @@ public class RestaurantOrderingSystem {
         System.out.print("Enter new password: ");
         String createPassword = in.nextLine();
 
-        String encryptedPassword = passwordEncryption(createPassword, key);
+         String encryptedPassword = passwordEncryption(createPassword, key);
         
         try (FileWriter myWriter = new FileWriter("C:\\Users\\Eunace Faith Emactao\\OneDrive\\Desktop\\users.txt", true)) {
             myWriter.write(createUsername + "," + encryptedPassword + "\n");
