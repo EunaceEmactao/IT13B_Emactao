@@ -9,6 +9,12 @@ import javax.swing.JOptionPane;
 import Finals.loginfinal2;
 import Finals.CreateAccount;
 import javax.swing.SwingUtilities;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerDateModel;
+import javax.swing.SpinnerNumberModel;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Calendar;
 /**
  *
  * @author Eunace Faith Emactao
@@ -20,6 +26,8 @@ public class CreateTask extends javax.swing.JFrame {
      */
     public CreateTask() {
         initComponents();
+        setupCategoryBoxColors();
+        setupPriorityColors();
     }
 
     /**
@@ -38,13 +46,15 @@ public class CreateTask extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         TaskArea = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
-        Deadline = new javax.swing.JTextField();
+        deadlineSpinner = new javax.swing.JSpinner();
         jLabel2 = new javax.swing.JLabel();
         CategoryBox = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
 
         menu1.setLabel("File");
         menuBar1.add(menu1);
@@ -69,14 +79,15 @@ public class CreateTask extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Task:");
 
-        Deadline.setBackground(new java.awt.Color(255, 255, 255));
-        Deadline.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        Deadline.setForeground(new java.awt.Color(0, 0, 0));
-        Deadline.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DeadlineActionPerformed(evt);
-            }
-        });
+        SpinnerDateModel dateModel = new SpinnerDateModel();
+        dateModel.setStart(null); // No minimum date
+        dateModel.setEnd(null);   // No maximum date
+        deadlineSpinner = new JSpinner(dateModel);
+        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(deadlineSpinner, "MM/dd/yyyy");
+        deadlineSpinner.setEditor(dateEditor);
+        deadlineSpinner.setFont(new java.awt.Font("Segoe UI", 1, 14));
+        deadlineSpinner.setBackground(new java.awt.Color(255, 255, 255));
+        deadlineSpinner.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
@@ -120,6 +131,20 @@ public class CreateTask extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Create Task");
 
+        jComboBox1.setBackground(new java.awt.Color(255, 255, 255));
+        jComboBox1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jComboBox1.setForeground(new java.awt.Color(0, 0, 0));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "High", "Medium", "Low" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel5.setText("Priority:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -136,14 +161,17 @@ public class CreateTask extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(51, 51, 51)
                                 .addComponent(CategoryBox, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Deadline, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(deadlineSpinner, javax.swing.GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -155,7 +183,7 @@ public class CreateTask extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(42, Short.MAX_VALUE)
+                .addContainerGap(26, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addGap(29, 29, 29)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -166,11 +194,15 @@ public class CreateTask extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Deadline, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deadlineSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(CategoryBox, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(CategoryBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addGap(30, 30, 30)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -207,53 +239,54 @@ String username;// TODO add your handling code here:
     }//GEN-LAST:event_CategoryBoxActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-          
-    String task = TaskArea.getText().trim();
-String deadline = Deadline.getText().trim();
-String category = (String) CategoryBox.getSelectedItem();
+        String task = TaskArea.getText().trim();
+        Date selectedDate = (Date) deadlineSpinner.getValue();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        String formattedDate = dateFormat.format(selectedDate);
+        String category = (String) CategoryBox.getSelectedItem();
+        String priority = (String) jComboBox1.getSelectedItem();
 
-String username;
+        String username;
 
-// Get username from either CreateAccount or loginfinal2
-if (CreateAccount.currentUSer != null) {
-    username = CreateAccount.currentUSer;
-} else {
-    username = loginfinal2.currentUSer;
-}
+        // Get username from either CreateAccount or loginfinal2
+        if (CreateAccount.currentUSer != null) {
+            username = CreateAccount.currentUSer;
+        } else {
+            username = loginfinal2.currentUSer;
+        }
 
-// Validate that a task was entered
-if (task.isEmpty()) {
-    JOptionPane.showMessageDialog(null, "Please enter a task.");
-} else {
-    // Create a unique file for the user
-    String basePath = "C:\\Users\\Eunace Faith Emactao\\OneDrive\\Documents\\assignments\\GUI txt\\";
-    String filePath = basePath + username + ".txt";
+        // Validate that a task was entered
+        if (task.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please enter a task.");
+        } else {
+            // Create a unique file for the user
+            String basePath = "C:\\Users\\Eunace Faith Emactao\\OneDrive\\Documents\\assignments\\GUI txt\\";
+            String filePath = basePath + username + ".txt";
 
-    try (java.io.FileWriter writer = new java.io.FileWriter(filePath, true)) {
-        writer.write("Task: " + task + ", Deadline: " + deadline + ", Category: " + category + "\n");
+            try (java.io.FileWriter writer = new java.io.FileWriter(filePath, true)) {
+                // Format the task information with the new date format
+                writer.write("Task: " + task + ", Deadline: " + formattedDate + ", Priority: " + priority + ", Category: " + category + "\n");
 
-        // Show confirmation
-        JOptionPane.showMessageDialog(null, "Added: " + task + "\nCategory: " + category);
+                // Show confirmation with formatted date
+                JOptionPane.showMessageDialog(null, "Added: " + task + 
+                    "\nDeadline: " + formattedDate +
+                    "\nPriority: " + priority + 
+                    "\nCategory: " + category);
 
-        // Clear fields
-        TaskArea.setText("");
-        Deadline.setText("");
-        CategoryBox.setSelectedIndex(0);
+                // Clear fields
+                TaskArea.setText("");
+                deadlineSpinner.setValue(new Date()); // Reset to current date
+                CategoryBox.setSelectedIndex(0);
+                jComboBox1.setSelectedIndex(0);
 
-        // Optionally go to dashboard
-        DASHBOARD eunna = new DASHBOARD();
-        eunna.setVisible(true);
-        dispose();
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Failed to save task.");
-    }
-}
-
-
-
-            
-            
-       
+                // Go to dashboard
+                DASHBOARD eunna = new DASHBOARD();
+                eunna.setVisible(true);
+                dispose();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Failed to save task: " + e.getMessage());
+            }
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -261,6 +294,74 @@ if (task.isEmpty()) {
         newDash.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void setupCategoryBoxColors() {
+        jComboBox1.setRenderer(new javax.swing.DefaultListCellRenderer() {
+            @Override
+            public java.awt.Component getListCellRendererComponent(
+                    javax.swing.JList<?> list,
+                    Object value,
+                    int index,
+                    boolean isSelected,
+                    boolean cellHasFocus) {
+                
+                javax.swing.JLabel label = (javax.swing.JLabel) super.getListCellRendererComponent(
+                        list, value, index, isSelected, cellHasFocus);
+                
+                if (value != null) {
+                    String category = value.toString();
+                    switch (category.toLowerCase()) {
+                        case "Academics":
+                            label.setForeground(java.awt.Color.GREEN);
+                            break;
+                        case "Home":
+                            label.setForeground(java.awt.Color.ORANGE);
+                            break;
+                        case "Personal":
+                            label.setForeground(java.awt.Color.PINK);
+                            break;
+                    }
+                }
+                return label;
+            }
+        });
+    }
+
+    private void setupPriorityColors() {
+        jComboBox1.setRenderer(new javax.swing.DefaultListCellRenderer() {
+            @Override
+            public java.awt.Component getListCellRendererComponent(
+                    javax.swing.JList<?> list,
+                    Object value,
+                    int index,
+                    boolean isSelected,
+                    boolean cellHasFocus) {
+                
+                javax.swing.JLabel label = (javax.swing.JLabel) super.getListCellRendererComponent(
+                        list, value, index, isSelected, cellHasFocus);
+                
+                if (value != null) {
+                    String priority = value.toString();
+                    switch (priority.toLowerCase()) {
+                        case "high":
+                            label.setForeground(java.awt.Color.RED);
+                            break;
+                        case "medium":
+                            label.setForeground(java.awt.Color.BLUE);
+                            break;
+                        case "low":
+                            label.setForeground(java.awt.Color.GREEN);
+                            break;
+                    }
+                }
+                return label;
+            }
+        });
+    }
 
     /**
      * @param args the command line arguments
@@ -299,14 +400,16 @@ if (task.isEmpty()) {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> CategoryBox;
-    private javax.swing.JTextField Deadline;
+    private javax.swing.JSpinner deadlineSpinner;
     private javax.swing.JTextArea TaskArea;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private java.awt.Menu menu1;
