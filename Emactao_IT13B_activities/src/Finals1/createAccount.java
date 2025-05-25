@@ -235,15 +235,15 @@ public class createAccount extends javax.swing.JFrame {
         if (user.isEmpty() || pass.isEmpty() || inst.isEmpty()) {
             javax.swing.JOptionPane.showMessageDialog(null, "Invalid: Please fill in all fields (username, password, and institution).");
         } else {
-            // Path for storing user credentials
+           
             String credentialsPath = "C:\\Users\\Eunace Faith Emactao\\OneDrive\\Documents\\assignments\\GUI txt\\eun2.txt";
-            // Path for storing user's tasks
+           
             String userTasksPath = "C:\\Users\\Eunace Faith Emactao\\OneDrive\\Documents\\assignments\\GUI txt\\" + user + ".txt";
 
             String encryptedPassword = passwordEncryption(pass, key);
 
             try {
-                // First, save the user credentials with institution and role
+               
                 java.io.FileWriter credWriter = new java.io.FileWriter(credentialsPath, true);
                 credWriter.write("Username:" + user + " , " + 
                                "Password:" + encryptedPassword + " , " + 
@@ -251,7 +251,7 @@ public class createAccount extends javax.swing.JFrame {
                                "Role:" + userRole + "\n");
                 credWriter.close();
 
-                // Then, create a new file for user's tasks
+                
                 java.io.File userTaskFile = new java.io.File(userTasksPath);
                 if (!userTaskFile.exists()) {
                     java.io.FileWriter taskWriter = new java.io.FileWriter(userTaskFile);
@@ -267,7 +267,7 @@ public class createAccount extends javax.swing.JFrame {
 
                 javax.swing.JOptionPane.showMessageDialog(null, "Account created successfully!");
                 
-                // Redirect based on user role
+                
                 if (userRole.equals("I assign tasks")) {
                     Dashboard dashboard = new Dashboard();
                     dashboard.setVisible(true);

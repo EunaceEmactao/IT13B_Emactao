@@ -50,11 +50,11 @@ public class dashboardReceiver extends javax.swing.JFrame {
         
        
         
-        // Add window listener
+        
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowOpened(java.awt.event.WindowEvent e) {
-                // Add a small delay to ensure everything is initialized
+                
                 javax.swing.SwingUtilities.invokeLater(() -> {
                     loadTasks();
                 });
@@ -63,13 +63,13 @@ public class dashboardReceiver extends javax.swing.JFrame {
     }
 
    private void loadTasks() {
-    // Initialize the tasks panel and scroll pane
+    
     taskPanel = new javax.swing.JPanel();
     jScrollPane1 = new javax.swing.JScrollPane();
     taskPanel.setLayout(new javax.swing.BoxLayout(taskPanel, javax.swing.BoxLayout.Y_AXIS));
     jScrollPane1.setViewportView(taskPanel);
 
-    // Add the scroll pane to the main panel
+    
     areatasks.add(jScrollPane1);
     jScrollPane1.setBounds(10, 10, 700, 350);
 
@@ -100,7 +100,7 @@ public class dashboardReceiver extends javax.swing.JFrame {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine().trim();
 
-                // Skip header lines, empty lines, and lines with only dashes
+                
                 if (line.isEmpty() || line.startsWith("Tasks for user:") || 
                     line.startsWith("Role:") || line.startsWith("Institution:") ||
                     line.matches("[-\\s]+")) {
@@ -110,7 +110,7 @@ public class dashboardReceiver extends javax.swing.JFrame {
                 foundTasks = true;
                 allTasks.add(line);
 
-                // Format the line for display
+                
                 String[] parts = line.split(", ");
                 StringBuilder taskText = new StringBuilder();
                 for (String part : parts) {
@@ -125,7 +125,7 @@ public class dashboardReceiver extends javax.swing.JFrame {
                 taskArea.setWrapStyleWord(true);
                 taskArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-                // Optional mouse click to highlight selected task
+                
                 taskArea.addMouseListener(new java.awt.event.MouseAdapter() {
                     public void mouseClicked(java.awt.event.MouseEvent evt) {
                         for (Component c : taskPanel.getComponents()) {
@@ -185,7 +185,7 @@ private void LoadTasks() {
 
     try (BufferedReader reader = new BufferedReader(new FileReader(taskFilePath))) {
         String line;
-        taskPanel.removeAll(); // Clear existing tasks
+        taskPanel.removeAll(); 
         boolean headerPassed = false;
 
         while ((line = reader.readLine()) != null) {
@@ -201,7 +201,7 @@ private void LoadTasks() {
                                         line.contains("Priority: " + Priority);
 
                 if (categoryMatch && priorityMatch) {
-                    // Create and add the task panel
+                    
                     JPanel singleTaskPanel = new JPanel();
                     singleTaskPanel.setLayout(new BorderLayout());
                     singleTaskPanel.setBackground(Color.WHITE);
@@ -261,7 +261,7 @@ private void LoadTasks() {
     }
 }
 
-// Helper to parse a task line into a map of fields
+
 private Map<String, String> parseTaskFields(String taskLine) {
     Map<String, String> map = new HashMap<>();
     String[] parts = taskLine.split(",");
@@ -275,10 +275,10 @@ private Map<String, String> parseTaskFields(String taskLine) {
 }
 
 private boolean deleteTaskFromAssignerFileByFields(String assignerFilePath, String fullTaskText) {
-    // Parse the selected task into a map
+    
     Map<String, String> selectedFields = parseTaskFields(fullTaskText);
 
-    // Remove "Assigned By" from the map, as it's not in the assigner's file
+    
     selectedFields.remove("Assigned By");
 
     File assignerFile = new File(assignerFilePath);
@@ -292,7 +292,7 @@ private boolean deleteTaskFromAssignerFileByFields(String assignerFilePath, Stri
         String line;
         while ((line = reader.readLine()) != null) {
             Map<String, String> fileFields = parseTaskFields(line);
-            // Only compare fields that are in the selected task (ignoring "Assigned By")
+            
             boolean allMatch = true;
             for (String key : selectedFields.keySet()) {
                 String selectedValue = selectedFields.get(key);
@@ -304,7 +304,7 @@ private boolean deleteTaskFromAssignerFileByFields(String assignerFilePath, Stri
             }
             if (allMatch) {
                 found = true;
-                continue; // Skip this line (delete)
+                continue; 
             }
             writer.write(line);
             writer.newLine();
@@ -330,7 +330,7 @@ private boolean deleteTaskFromAssignerFileByFields(String assignerFilePath, Stri
     return found;
 }
 
-    // Add delete button action listener in your GUI builder code
+    
    
  
 
@@ -498,7 +498,7 @@ if (selectedTaskArea == null) {
     return;
 }
 
-// Convert multiline taskText to single-line format matching the txt file
+
 String taskTextMultiLine = selectedTaskArea.getText().trim();
 if (taskTextMultiLine.isEmpty()) {
     JOptionPane.showMessageDialog(null, "Selected task is empty.");
@@ -521,7 +521,7 @@ String currentUser = createAccount.currentUSer != null
 String basePath = "C:\\Users\\Eunace Faith Emactao\\OneDrive\\Documents\\assignments\\GUI txt\\";
 String currentUserFile = basePath + currentUser + ".txt";
 
-// Extract "Assigned By" from single-line taskText
+
 String assignedBy = null;
 int assignedByIndex = taskText.indexOf("Assigned By: ");
 if (assignedByIndex != -1) {
@@ -542,7 +542,7 @@ try {
     File originalFile = new File(currentUserFile);
     File tempFile = new File(basePath + "temp_" + currentUser + ".txt");
 
-    // Read original, write to temp skipping the task line
+    
     try (BufferedReader reader = new BufferedReader(new FileReader(originalFile));
          BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
 
@@ -552,7 +552,7 @@ try {
         while ((line = reader.readLine()) != null) {
             if (line.trim().equalsIgnoreCase(taskText)) {
                 taskFoundAndRemoved = true;
-                continue; // Skip this line (delete)
+                continue; 
             }
             writer.write(line);
             writer.newLine();
@@ -563,13 +563,13 @@ try {
                 null,
                 "Could not find the selected task in your file."
             );
-            // clean up temp file
+            
             tempFile.delete();
             return;
         }
     }
 
-    // Replace original file with temp file
+    
     if (!originalFile.delete() || !tempFile.renameTo(originalFile)) {
         JOptionPane.showMessageDialog(
             null,
@@ -584,7 +584,7 @@ try {
     JOptionPane.showMessageDialog(null, "Task not found in assigner's file.");
  }
 try (BufferedWriter writer = new BufferedWriter(new FileWriter(assignerFile, true))) {
-   // Simply append a progress line at the end
+   
    writer.write("Progress: Completed: " + taskText + "\n");
    writer.newLine();
 } catch (IOException ex) {
@@ -597,11 +597,11 @@ try (BufferedWriter writer = new BufferedWriter(new FileWriter(assignerFile, tru
 Component[] comps = taskPanel.getComponents();
 for (int i = 0; i < comps.length; i++) {
     if (comps[i] == selectedTaskArea) {
-        // Remove the spacer below it, if any
+        
         if (i + 1 < comps.length && comps[i + 1] instanceof Box.Filler) {
             taskPanel.remove(comps[i + 1]);
         }
-        // Remove the task area
+        
         taskPanel.remove(selectedTaskArea);
         break;
     }

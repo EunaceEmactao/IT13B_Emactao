@@ -30,31 +30,31 @@ public class ViewTask extends javax.swing.JFrame {
         initComponents();
         setupTasksPanel();
         
-        // Set up combo box models with "All" options
+        
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(
             new String[] { "All Categories", "Academics", "Work", "Home", "Personal" }));
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(
             new String[] { "All Priorities", "High", "Medium", "Low" }));
         
-        // Load users for the assigned to filter
+        
         loadAssignedUsers();
         
-        // Add action listeners for the combo boxes
+        
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loadTasks(); // Reload tasks when filter changes
+                loadTasks(); 
             }
         });
         
         jComboBox2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loadTasks(); // Reload tasks when filter changes
+                loadTasks(); 
             }
         });
         
         jComboBox3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loadTasks(); // Reload tasks when filter changes
+                loadTasks(); 
             }
         });
         
@@ -63,23 +63,23 @@ public class ViewTask extends javax.swing.JFrame {
     }
 
     private void setupTasksPanel() {
-        // Create main panel to hold tasks
+        
         tasksPanel = new JPanel();
         tasksPanel.setLayout(new BoxLayout(tasksPanel, BoxLayout.Y_AXIS));
         tasksPanel.setBackground(new Color(240, 240, 240));
 
-        // Create and setup the scroll pane
+        
         scrollPane = new JScrollPane(tasksPanel);
         scrollPane.setBounds(50, 150, 950, 450);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         
-        // Add to the panel
+        
         jPanel2.setLayout(null);
         jPanel2.add(scrollPane);
     }
 
     private void createTaskPanel(String taskData) {
-        // Create panel for individual task
+        
         JPanel taskPanel = new JPanel();
         taskPanel.setLayout(new BorderLayout());
         taskPanel.setBackground(new Color(255, 255, 255));
@@ -90,7 +90,7 @@ public class ViewTask extends javax.swing.JFrame {
         taskPanel.setMaximumSize(new Dimension(800, 200));
         taskPanel.setPreferredSize(new Dimension(800, 200));
 
-        // Create text area for task
+        
         JTextArea taskArea = new JTextArea();
         taskArea.setEditable(false);
         taskArea.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -99,7 +99,7 @@ public class ViewTask extends javax.swing.JFrame {
         taskArea.setWrapStyleWord(true);
         taskArea.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-        // Format task data
+        
         String[] fields = taskData.split(", ");
         StringBuilder formattedTask = new StringBuilder();
         for (String field : fields) {
@@ -107,7 +107,7 @@ public class ViewTask extends javax.swing.JFrame {
         }
         taskArea.setText(formattedTask.toString());
 
-        // Add click listener to make the panel selectable
+        
         taskPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -128,15 +128,15 @@ public class ViewTask extends javax.swing.JFrame {
             }
         });
 
-        // Add task area to panel
+        
         taskPanel.add(taskArea, BorderLayout.CENTER);
 
-        // Add spacing panel
+        
         JPanel spacerPanel = new JPanel();
         spacerPanel.setPreferredSize(new Dimension(800, 10));
         spacerPanel.setBackground(new Color(240, 240, 240));
 
-        // Add to main panel
+        
         tasksPanel.add(taskPanel);
         tasksPanel.add(spacerPanel);
     }
@@ -167,9 +167,9 @@ public class ViewTask extends javax.swing.JFrame {
                     continue;
                 }
                 
-                // Only process lines after the header and that contain task information
+                
                 if (headerPassed && !line.trim().isEmpty() && line.contains("Task Title:")) {
-                    // Check if the task matches the selected filters
+                    
                     boolean categoryMatch = selectedCategory.equals("All Categories") || 
                                          line.contains("Category: " + selectedCategory);
                     boolean priorityMatch = selectedPriority.equals("All Priorities") || 
@@ -184,7 +184,7 @@ public class ViewTask extends javax.swing.JFrame {
             }
             
             if (tasksPanel.getComponentCount() == 0) {
-                // Create a panel for "no tasks" message
+                
                 JPanel noTaskPanel = new JPanel();
                 noTaskPanel.setLayout(new BorderLayout());
                 noTaskPanel.setBackground(new Color(255, 255, 255));
@@ -232,11 +232,11 @@ public class ViewTask extends javax.swing.JFrame {
 
     private void loadAssignedUsers() {
         try {
-            // First, get the current user's institution
+            
             String credentialsPath = "C:\\Users\\Eunace Faith Emactao\\OneDrive\\Documents\\assignments\\GUI txt\\eun2.txt";
             String currentUser = CreateAccount.currentUSer != null ? CreateAccount.currentUSer : loginfinal2.currentUSer;
             
-            // Find current user's institution
+            
             java.io.BufferedReader institutionReader = new java.io.BufferedReader(new java.io.FileReader(credentialsPath));
             String line;
             while ((line = institutionReader.readLine()) != null) {
@@ -253,10 +253,10 @@ public class ViewTask extends javax.swing.JFrame {
             }
             institutionReader.close();
 
-            // Now load users from the same institution with "I receive tasks" role
+            
             java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.FileReader(credentialsPath));
             java.util.ArrayList<String> users = new java.util.ArrayList<>();
-            users.add("All Users"); // Add default option
+            users.add("All Users"); 
 
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(" , ");
@@ -274,14 +274,14 @@ public class ViewTask extends javax.swing.JFrame {
                     }
                 }
 
-                // Add user only if they're from the same institution and have the receiver role
+                
                 if (institution.equals(currentInstitution) && role.equals("I receive tasks")) {
                     users.add(username);
                 }
             }
             reader.close();
 
-            // Update the combo box
+            
             jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(users.toArray(new String[0])));
 
         } catch (Exception e) {
@@ -455,7 +455,7 @@ public class ViewTask extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {
-        loadTasks();  // Reload tasks when category changes
+        loadTasks();  
     }
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
@@ -494,21 +494,21 @@ public class ViewTask extends javax.swing.JFrame {
         File tempFile = new File(inputFile.getAbsolutePath() + ".tmp");
 
         try {
-            // Read the file and write to temp file, excluding the selected task
+            
             BufferedReader reader = new BufferedReader(new FileReader(inputFile));
             java.io.PrintWriter writer = new java.io.PrintWriter(new java.io.FileWriter(tempFile));
 
             String line;
             boolean headerWritten = false;
             while ((line = reader.readLine()) != null) {
-                // Write header lines
+                
                 if (!headerWritten && (line.contains("Tasks for user") || line.contains("------------------------"))) {
                     writer.println(line);
                     continue;
                 }
                 headerWritten = true;
 
-                // Skip the line that matches our selected task
+                
                 if (!line.trim().equals(selectedTaskData.trim())) {
                     writer.println(line);
                 }
@@ -516,19 +516,19 @@ public class ViewTask extends javax.swing.JFrame {
             writer.close();
             reader.close();
 
-            // Delete the original file
+            
             if (!inputFile.delete()) {
                 throw new Exception("Could not delete original file");
             }
 
-            // Rename temp file to original file
+            
             if (!tempFile.renameTo(inputFile)) {
                 throw new Exception("Could not rename temp file");
             }
 
-            // Remove the task panel from UI
+            
             tasksPanel.remove(selectedTaskPanel);
-            // Remove the spacer panel that follows it
+            
             if (tasksPanel.getComponentCount() > 0) {
                 tasksPanel.remove(tasksPanel.getComponentCount() - 1);
             }
@@ -539,10 +539,10 @@ public class ViewTask extends javax.swing.JFrame {
             tasksPanel.revalidate();
             tasksPanel.repaint();
             
-            // Show success message
+            
             JOptionPane.showMessageDialog(this, "Task deleted successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
             
-            // Reload tasks to ensure proper display
+            
             loadTasks();
             
         } catch (Exception e) {

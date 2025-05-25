@@ -224,16 +224,16 @@ public class LogIn extends javax.swing.JFrame {
                 String userRole = "";
 
                 while ((line = reader.readLine()) != null) {
-                    // Trim to remove unnecessary whitespace
+                    
                     line = line.trim();
 
-                    // Split the line by commas and spaces
+                   
                     String[] parts = line.split(" , ");
                     String storedUsername = "";
                     String encryptedPassword = "";
                     String role = "";
 
-                    // Extract username and password from parts
+                   
                     for (String part : parts) {
                         if (part.startsWith("Username:")) {
                             storedUsername = part.substring("Username:".length()).trim();
@@ -244,7 +244,7 @@ public class LogIn extends javax.swing.JFrame {
                         }
                     }
 
-                    // Check if username and password match
+                    
                     if (!storedUsername.isEmpty() && !encryptedPassword.isEmpty()) {
                         String decryptedPassword = passwordDecryption(encryptedPassword, key);
                         if (user.equals(storedUsername) && pass.equals(decryptedPassword)) {
@@ -258,7 +258,7 @@ public class LogIn extends javax.swing.JFrame {
                 reader.close();
 
                 if (matched) {
-                    // Redirect based on user role
+                    
                     if (userRole.equals("I assign tasks")) {
                         Dashboard dashboard = new Dashboard();
                         dashboard.setVisible(true);
